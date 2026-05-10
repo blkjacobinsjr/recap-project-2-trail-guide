@@ -1,6 +1,7 @@
 import express from 'express';
 import nunjucks from 'nunjucks';
 import { connectDB, closeDB } from './models/db';
+import websiteRoutes from './routes/websiteRoutes';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,20 +17,16 @@ app.set('view engine', 'html');
 app.use(express.static('public'));
 
 // --- 3. MIDDLEWARE ---
-app.use(express.urlencoded({ extended: true })); // Handle HTML Form data
-app.use(express.json()); // Handle JSON data for the API
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-// --- 4. ROUTES (Placeholders for now) ---
-app.get('/', (req, res) => {
-    res.render('base');
-});
+// --- 4. ROUTES ---
+app.use('/', websiteRoutes);
 
 // --- 5. SERVER LIFECYCLE ---
 async function startServer() {
     try {
-        // Open the warehouse BEFORE starting the assembly line
         await connectDB();
-        
         app.listen(port, () => {
             console.log(`Trail Guide running at http://localhost:${port}`);
         });
@@ -41,8 +38,6 @@ async function startServer() {
 
 startServer();
 
-// --- 6. SHUTDOWN HANDLING ---
-// When someone hits CTRL+C, close the database safely.
 process.on('SIGINT', async () => {
     await closeDB();
     process.exit(0);

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<article>
+    <header>
+        <h2>{{ trail.title }}</h2>
+        <p>Region: <a href="/regions/{{ trail.region_slug }}">{{ trail.region_name }}</a>, {{ trail.region_country }}</p>
+    </header>
+    <p>Difficulty: <strong>{{ trail.difficulty }}</strong></p>
+    <p><small>Added on: {{ trail.created_at }}</small></p>
+</article>
+<a href="/" role="button" class="secondary">Back to Trails</a>
+{% endblock %}

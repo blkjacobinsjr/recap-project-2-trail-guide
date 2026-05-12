@@ -20,3 +20,8 @@ export async function getTrailsByRegionId(regionId: number) {
     const db = getDB();
     return db.all(`${TRAIL_JOIN_QUERY} WHERE trails.region_id = ? ORDER BY trails.title ASC`, [regionId]);
 }
+
+export async function deleteTrail(id: number) {
+    const db = getDB();
+    return db.run('DELETE FROM trails WHERE id = ?', [id]);
+}
